@@ -1,0 +1,101 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://wand.gd" type="Script" id=1]
+[ext_resource path="res://move.gd" type="Script" id=2]
+[ext_resource path="res://IMG_0346.PNG" type="Texture" id=3]
+[ext_resource path="res://sprites/IMG_0345.PNG" type="Texture" id=4]
+[ext_resource path="res://sprites/MAPPA_Logo.svg.png" type="Texture" id=5]
+[ext_resource path="res://scenes/HealthBar.tscn" type="PackedScene" id=6]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 1028.68, 1365.34 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 209.5, 1087.5 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 1923, 154.5 )
+
+[node name="Node2D" type="Node2D"]
+__meta__ = {
+"_edit_horizontal_guides_": [ -561.0, 1601.0 ],
+"_edit_vertical_guides_": [ -962.0, 2877.0 ]
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 959, 519 )
+texture = ExtResource( 3 )
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="."]
+position = Vector2( 474, 217 )
+scale = Vector2( 0.0534668, 0.0534667 )
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="KinematicBody2D"]
+position = Vector2( 37.4062, -37.4058 )
+scale = Vector2( 7.94089, 7.89219 )
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
+position = Vector2( -37.4062, -37.4065 )
+shape = SubResource( 1 )
+
+[node name="Camera2D" type="Camera2D" parent="KinematicBody2D"]
+position = Vector2( 37.4043, -56.1094 )
+scale = Vector2( 18.7032, 18.7032 )
+current = true
+limit_left = -962
+limit_top = -560
+limit_right = 2877
+limit_bottom = 1600
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+drag_margin_left = 0.75
+drag_margin_top = 0.75
+drag_margin_right = 0.75
+drag_margin_bottom = 0.75
+
+[node name="Sprite2" type="Sprite" parent="KinematicBody2D"]
+position = Vector2( 37.4062, -18.7036 )
+scale = Vector2( 1.20854, 1.20855 )
+texture = ExtResource( 5 )
+centered = false
+offset = Vector2( 750, -270 )
+script = ExtResource( 1 )
+delay = 1
+
+[node name="fire_point" type="Node2D" parent="KinematicBody2D/Sprite2"]
+position = Vector2( 3325.21, -19.3325 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2( 0, 9 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 3093, 495 )
+shape = SubResource( 2 )
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Node2D" parent="HUD" instance=ExtResource( 6 )]
+margin_right = 3966.0
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2( 0, 18 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2( -1162.5, 502.5 )
+shape = SubResource( 2 )
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+position = Vector2( 0, 18 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+position = Vector2( 957, 1723 )
+shape = SubResource( 3 )
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="."]
+position = Vector2( 0, 36 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D4"]
+position = Vector2( 944, -754 )
+shape = SubResource( 3 )
