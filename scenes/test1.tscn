@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://wand.gd" type="Script" id=1]
 [ext_resource path="res://move.gd" type="Script" id=2]
@@ -6,6 +6,16 @@
 [ext_resource path="res://sprites/IMG_0345.PNG" type="Texture" id=4]
 [ext_resource path="res://sprites/MAPPA_Logo.svg.png" type="Texture" id=5]
 [ext_resource path="res://scenes/HealthBar.tscn" type="PackedScene" id=6]
+[ext_resource path="res://light.tres" type="Texture" id=7]
+[ext_resource path="res://fonts/a_akhir_tahun/aAkhirTahun.otf" type="DynamicFontData" id=8]
+[ext_resource path="res://scenes/HUDLogic.gd" type="Script" id=9]
+[ext_resource path="res://scenes/EnemyGroud.gd" type="Script" id=10]
+[ext_resource path="res://scenes/bigman.gd" type="Script" id=11]
+[ext_resource path="res://sprites/hus.png" type="Texture" id=12]
+[ext_resource path="res://scenes/dayNNight.gd" type="Script" id=13]
+
+[sub_resource type="OccluderPolygon2D" id=10]
+polygon = PoolVector2Array( -11.7765, -272.532, -204.911, -109.013, -160.161, 146.93, -75.3696, 199.067, 47.1061, 199.067, 148.384, 146.93, 108.344, 37.9174, 127.186, -23.6985, 211.977, -87.6842, 113.055, -158.779, 54.172, -175.368 )
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 1028.68, 1365.34 )
@@ -13,37 +23,65 @@ extents = Vector2( 1028.68, 1365.34 )
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 209.5, 1087.5 )
 
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 1923, 154.5 )
+[sub_resource type="DynamicFontData" id=4]
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="DynamicFont" id=5]
+font_data = SubResource( 4 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 70
+font_data = ExtResource( 8 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 2335, 154.5 )
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 331.118, 333.627 )
+
+[sub_resource type="OccluderPolygon2D" id=11]
+polygon = PoolVector2Array( 97.8303, -920.609, -444, -499.186, -258.373, -376.271, -205.695, 832.813, -17.5593, 945.694, 205.695, 940.677, 351.186, 900.541, 406.373, 822.779, 396.339, 145.491, 351.186, -388.813, 446.508, -486.644 )
+
+[sub_resource type="Gradient" id=8]
+offsets = PoolRealArray( 0, 0, 0, 0, 0, 0.52521, 1 )
+colors = PoolColorArray( 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.483193, 0.483193, 0.483193, 1, 0, 0, 0, 1 )
+
+[sub_resource type="GradientTexture" id=9]
+gradient = SubResource( 8 )
+
+[node name="world" type="Node2D"]
+script = ExtResource( 11 )
 __meta__ = {
 "_edit_horizontal_guides_": [ -561.0, 1601.0 ],
 "_edit_vertical_guides_": [ -962.0, 2877.0 ]
 }
 
-[node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 959, 519 )
+[node name="groud" type="Sprite" parent="."]
+position = Vector2( 904, 548 )
 texture = ExtResource( 3 )
 
-[node name="KinematicBody2D" type="KinematicBody2D" parent="."]
+[node name="player" type="KinematicBody2D" parent="." groups=["Player", "logic"]]
 position = Vector2( 474, 217 )
 scale = Vector2( 0.0534668, 0.0534667 )
+collision_mask = 3
 script = ExtResource( 2 )
 
-[node name="Sprite" type="Sprite" parent="KinematicBody2D"]
+[node name="Sprite" type="Sprite" parent="player"]
 position = Vector2( 37.4062, -37.4058 )
 scale = Vector2( 7.94089, 7.89219 )
 texture = ExtResource( 4 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="player/Sprite"]
+occluder = SubResource( 10 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
 position = Vector2( -37.4062, -37.4065 )
 shape = SubResource( 1 )
 
-[node name="Camera2D" type="Camera2D" parent="KinematicBody2D"]
+[node name="Camera2D" type="Camera2D" parent="player"]
 position = Vector2( 37.4043, -56.1094 )
 scale = Vector2( 18.7032, 18.7032 )
 current = true
+zoom = Vector2( 1.2, 1.2 )
 limit_left = -962
 limit_top = -560
 limit_right = 2877
@@ -55,29 +93,78 @@ drag_margin_top = 0.75
 drag_margin_right = 0.75
 drag_margin_bottom = 0.75
 
-[node name="Sprite2" type="Sprite" parent="KinematicBody2D"]
+[node name="Wand" type="Sprite" parent="player"]
 position = Vector2( 37.4062, -18.7036 )
 scale = Vector2( 1.20854, 1.20855 )
 texture = ExtResource( 5 )
 centered = false
 offset = Vector2( 750, -270 )
 script = ExtResource( 1 )
-delay = 1
 
-[node name="fire_point" type="Node2D" parent="KinematicBody2D/Sprite2"]
+[node name="fire_point" type="Node2D" parent="player/Wand"]
 position = Vector2( 3325.21, -19.3325 )
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="edge" type="StaticBody2D" parent="."]
 position = Vector2( 0, 9 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 3093, 495 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="edge"]
+position = Vector2( 3050, 499 )
 shape = SubResource( 2 )
 
 [node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource( 9 )
 
-[node name="Node2D" parent="HUD" instance=ExtResource( 6 )]
+[node name="Label" type="Label" parent="HUD"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -7.0
+margin_right = 20.0
+margin_bottom = 7.0
+custom_fonts/font = SubResource( 5 )
+text = "hello"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DeathLable" type="RichTextLabel" parent="HUD"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -330.0
+margin_top = -26.0
+margin_right = 331.0
+margin_bottom = 47.0
+custom_fonts/normal_font = SubResource( 6 )
+bbcode_enabled = true
+bbcode_text = "[center]My text"
+text = "My text"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthBar" parent="HUD" instance=ExtResource( 6 )]
 margin_right = 3966.0
+
+[node name="Button" type="Button" parent="HUD"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -34.0
+margin_top = -10.0
+margin_right = 34.0
+margin_bottom = 10.0
+rect_scale = Vector2( 14.7975, 7.049 )
+text = "Respawn"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="."]
 position = Vector2( 0, 18 )
@@ -97,5 +184,71 @@ shape = SubResource( 3 )
 position = Vector2( 0, 36 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D4"]
-position = Vector2( 944, -754 )
+position = Vector2( 935, -761 )
 shape = SubResource( 3 )
+
+[node name="EnemyGroud" type="Node2D" parent="."]
+script = ExtResource( 10 )
+
+[node name="enemyPointWest" type="Node2D" parent="EnemyGroud"]
+position = Vector2( -874, 542 )
+
+[node name="enemyPointNorth" type="Node2D" parent="EnemyGroud"]
+position = Vector2( 973, -475 )
+
+[node name="enemyPointSouth" type="Node2D" parent="EnemyGroud"]
+position = Vector2( 967, 1517 )
+
+[node name="enemyPointEast" type="Node2D" parent="EnemyGroud"]
+position = Vector2( 2654, 651 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+__meta__ = {
+"_editor_description_": "Enemy Spawn Timer
+"
+}
+
+[node name="Hus" type="Sprite" parent="." groups=["House"]]
+position = Vector2( 863, 310 )
+scale = Vector2( 0.398649, 0.398649 )
+texture = ExtResource( 12 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Hus"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hus/StaticBody2D"]
+position = Vector2( 77.7632, 607.051 )
+scale = Vector2( 1, 1 )
+shape = SubResource( 7 )
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Hus"]
+occluder = SubResource( 11 )
+
+[node name="Light2D" type="Light2D" parent="."]
+position = Vector2( 10471, 777 )
+scale = Vector2( 5.71975, 4.40139 )
+texture = ExtResource( 7 )
+texture_scale = 10.0
+color = Color( 1, 0.654902, 0.423529, 1 )
+energy = 1.2
+range_height = 276.8
+shadow_enabled = true
+shadow_color = Color( 0.235294, 0.207843, 0.54902, 0 )
+script = ExtResource( 13 )
+
+[node name="Light2D" type="Light2D" parent="Light2D"]
+position = Vector2( 367, 526 )
+scale = Vector2( 0.398649, 0.398649 )
+texture = SubResource( 9 )
+color = Color( 1, 0.654902, 0.423529, 1 )
+energy = 3.15
+range_height = 276.8
+shadow_enabled = true
+shadow_color = Color( 0.235294, 0.207843, 0.54902, 0 )
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+
+[connection signal="gameOver" from="player" to="." method="_on_player_gameOver"]
+[connection signal="button_down" from="HUD/Button" to="HUD" method="_on_Button_button_down"]
+[connection signal="timeout" from="Timer" to="EnemyGroud" method="_on_Timer_timeout"]

@@ -4,7 +4,7 @@ var fireball = preload("res://scenes/fireball.tscn")
 
 var can_fire = true
 
-export (int) var delay = 0.5
+export (float) var delay = 0.1
 
 # Declare member variables here. Examples:
 # var a = 2

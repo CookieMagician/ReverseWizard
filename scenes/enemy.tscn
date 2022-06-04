@@ -1,0 +1,92 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://enemy.gd" type="Script" id=1]
+[ext_resource path="res://sprites/Untitled_Artwork-2.png" type="Texture" id=2]
+[ext_resource path="res://sprites/Untitled_Artwork-4.png" type="Texture" id=3]
+[ext_resource path="res://sprites/Untitled_Artwork-3.png" type="Texture" id=4]
+[ext_resource path="res://sprites/Untitled_Artwork-8.png" type="Texture" id=5]
+[ext_resource path="res://sprites/Untitled_Artwork-5.png" type="Texture" id=6]
+[ext_resource path="res://sprites/Untitled_Artwork-7.png" type="Texture" id=7]
+[ext_resource path="res://sprites/Untitled_Artwork-6.png" type="Texture" id=8]
+[ext_resource path="res://sprites/Untitled_Artwork-1.png" type="Texture" id=9]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 121, 178 )
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 4 ) ],
+"loop": true,
+"name": "6",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 8 ) ],
+"loop": true,
+"name": "3",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "7",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "4",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "1",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "5",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 9 ) ],
+"loop": true,
+"name": "8",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 7 ) ],
+"loop": true,
+"name": "2",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 9 ), ExtResource( 2 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 6 ), ExtResource( 8 ), ExtResource( 7 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "New Anim",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 260, 282 )
+
+[node name="Enemy" type="KinematicBody2D" groups=["enemy", "logic"]]
+scale = Vector2( 0.5, 0.5 )
+collision_layer = 2
+collision_mask = 5
+script = ExtResource( 1 )
+speed = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 1, -32 )
+shape = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 2 )
+animation = "New Anim"
+frame = 1
+playing = true
+
+[node name="Area2D" type="Area2D" parent="AnimatedSprite"]
+collision_layer = 2
+collision_mask = 5
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="AnimatedSprite/Area2D"]
+position = Vector2( -18, -28 )
+shape = SubResource( 3 )
+
+[connection signal="body_entered" from="AnimatedSprite/Area2D" to="." method="_on_Area2D_body_entered"]
